@@ -26,6 +26,30 @@
 // 	});
 // });
 
+// $("#username").focus();
+// searchQuery = document.getElementById('username')
+// genre_id = document.getElementById('genre')
+// var language = {}
+// MakePlaylist = document.getElementById('makePlaylist')
+var mxmAPI_base = 'https://api.musixmatch.com/ws/1.1/'
+var apiKey = 'd8951a826384c648324e206c942b5cce'
+var tagAPI_base = 'http://glacial-hollows-8890.herokuapp.com/lyrics_analysis/v1.0'
+var chordAPI_base = 'http://ec2-54-194-213-147.eu-west-1.compute.amazonaws.com/chord_analysis/v1.0/chords?trackID='//'http://ec2-54-194-130-174.eu-west-1.compute.amazonaws.com/chord_analysis/v1.0/chords?trackID='
+var chordAPIUrl = 'http://ec2-54-194-213-147.eu-west-1.compute.amazonaws.com/media' //'http://ec2-54-194-130-174.eu-west-1.compute.amazonaws.com/media'
+var mxmAPI_base_new = 'http://ec2-54-165-48-238.compute-1.amazonaws.com:8080/ws/1.1/macro.subtitles.get?app_id=musixmatch-rd-v1.0&usertoken=74b62c7030d940b2c0e9d3cc97a42f4bc531e9501479cd9e' //'http://apic.musixmatch.com/ws/1.1/'
+var echonest_base = 'http://developer.echonest.com/api/v4/track/profile?api_key='
+var echonest_song_base = 'http://developer.echonest.com/api/v4/song/profile?api_key='
+var echonest_search_base = 'http://developer.echonest.com/api/v4/song/search?api_key='
+var echonest_api_key = 'UUZDTANXIMNN98YW6'
+var musicbrainz_base = 'http://musicbrainz.org/ws/2/recording/?query=isrc:'
+var spotify_auth_base = 'https://accounts.spotify.com/authorize'
+var spotify_client_ID = '14fb55b1df36454793caa07ab8abefe6'
+var spotify_client_secret = 'cf72548f86e8493d8aa38cc881a63ee4'
+var duolingoAPI_base = 'http://ec2-54-77-238-210.eu-west-1.compute.amazonaws.com/duolingoHack/v1.0/'
+
+var have_valid_playlist = false
+var username = ''
+
 
 $(document).ready(function(){
 	// $("#videoList").append('<li><iframe id="ytplayer" type="text/html" width="562" height="338" src="http://www.youtube.com/embed/H8ELOfZoOQQ" frameborder="0"/></li>')
@@ -64,7 +88,7 @@ $(document).ready(function(){
 	  circle.setAttribute("class","circle");  
 	  
 	  youtube.appendChild(img);
-	  youtube.appendChild(circle);
+	  // youtube.appendChild(circle);
 	  
 	  // Attach an onclick event to the YouTube Thumbnail
 	  youtube.onclick = function() {
@@ -86,40 +110,17 @@ $(document).ready(function(){
 	}
 })
 
-$("#username").focus();
-searchQuery = document.getElementById('username')
-genre_id = document.getElementById('genre')
-var language = {}
-MakePlaylist = document.getElementById('makePlaylist')
-var mxmAPI_base = 'https://api.musixmatch.com/ws/1.1/'
-var apiKey = 'd8951a826384c648324e206c942b5cce'
-var tagAPI_base = 'http://glacial-hollows-8890.herokuapp.com/lyrics_analysis/v1.0'
-var chordAPI_base = 'http://ec2-54-194-213-147.eu-west-1.compute.amazonaws.com/chord_analysis/v1.0/chords?trackID='//'http://ec2-54-194-130-174.eu-west-1.compute.amazonaws.com/chord_analysis/v1.0/chords?trackID='
-var chordAPIUrl = 'http://ec2-54-194-213-147.eu-west-1.compute.amazonaws.com/media' //'http://ec2-54-194-130-174.eu-west-1.compute.amazonaws.com/media'
-var mxmAPI_base_new = 'http://ec2-54-165-48-238.compute-1.amazonaws.com:8080/ws/1.1/macro.subtitles.get?app_id=musixmatch-rd-v1.0&usertoken=74b62c7030d940b2c0e9d3cc97a42f4bc531e9501479cd9e' //'http://apic.musixmatch.com/ws/1.1/'
-var echonest_base = 'http://developer.echonest.com/api/v4/track/profile?api_key='
-var echonest_song_base = 'http://developer.echonest.com/api/v4/song/profile?api_key='
-var echonest_search_base = 'http://developer.echonest.com/api/v4/song/search?api_key='
-var echonest_api_key = 'UUZDTANXIMNN98YW6'
-var musicbrainz_base = 'http://musicbrainz.org/ws/2/recording/?query=isrc:'
-var spotify_auth_base = 'https://accounts.spotify.com/authorize'
-var spotify_client_ID = '14fb55b1df36454793caa07ab8abefe6'
-var spotify_client_secret = 'cf72548f86e8493d8aa38cc881a63ee4'
-var duolingoAPI_base = 'http://ec2-54-77-238-210.eu-west-1.compute.amazonaws.com/duolingoHack/v1.0/'
-
-var have_valid_playlist = false
-var username = ''
 
 // document.getElementById("genre").innerHTML = ''
-genreList = new Array()
-for (var i = 0; i < genres["music_genre_list"].length; i++) 
-{
-	// k = {}
-	// k['value'] = genres["music_genre_list"][i]["music_genre"]["music_genre_id"]
-	// k['label'] = genres["music_genre_list"][i]["music_genre"]["music_genre_name"]
-	// document.getElementById("genre").innerHTML += "<option value=" +genres["music_genre_list"][i]["music_genre"]["music_genre_id"] + ">" + genres["music_genre_list"][i]["music_genre"]["music_genre_name"] + "</option>"						
-	// genreList.push(k)
-};
+// genreList = new Array()
+// for (var i = 0; i < genres["music_genre_list"].length; i++) 
+// {
+// 	// k = {}
+// 	// k['value'] = genres["music_genre_list"][i]["music_genre"]["music_genre_id"]
+// 	// k['label'] = genres["music_genre_list"][i]["music_genre"]["music_genre_name"]
+// 	// document.getElementById("genre").innerHTML += "<option value=" +genres["music_genre_list"][i]["music_genre"]["music_genre_id"] + ">" + genres["music_genre_list"][i]["music_genre"]["music_genre_name"] + "</option>"						
+// 	// genreList.push(k)
+// };
 // nlform = new NLForm( document.getElementById( 'nl-form' ) )
 // console.log(genreList)
 // console.log($("#genre"))
@@ -132,29 +133,29 @@ function getJSON(url)
 	return get_promise.then(JSON.stringify).then(JSON.parse);
 }
 
-function getLyrics(track) 
-{
-	var lyrics_URI = mxmAPI_base + 'track.lyrics.get?apikey=b463ed1270b71853d56be5bd776a9b4a&track_id=' + track.track.track_id + '&format=jsonp&callback=?'
-	lyrics_URI = encodeURI(lyrics_URI)
-	// console.log(lyrics_URI)
-	//var get_promise = $.getJSON(lyrics_URI);
-	//console.log(url)
+// function getLyrics(track) 
+// {
+// 	var lyrics_URI = mxmAPI_base + 'track.lyrics.get?apikey=b463ed1270b71853d56be5bd776a9b4a&track_id=' + track.track.track_id + '&format=jsonp&callback=?'
+// 	lyrics_URI = encodeURI(lyrics_URI)
+// 	// console.log(lyrics_URI)
+// 	//var get_promise = $.getJSON(lyrics_URI);
+// 	//console.log(url)
 	
-	// console.log(trackWithLyrics)
-	return new Promise(function(resolve,reject)
-	{
-		getJSON(lyrics_URI).then(function(response)
-		{
-			// console.log(response)
-			trackWithLyrics = {}
-			trackWithLyrics['lyrics'] = response
-			trackWithLyrics['track'] = track.track
-			resolve(trackWithLyrics)
-		});
-	})
-		//console.log(url)
-		//return getJSON(url);
-}
+// 	// console.log(trackWithLyrics)
+// 	return new Promise(function(resolve,reject)
+// 	{
+// 		getJSON(lyrics_URI).then(function(response)
+// 		{
+// 			// console.log(response)
+// 			trackWithLyrics = {}
+// 			trackWithLyrics['lyrics'] = response
+// 			trackWithLyrics['track'] = track.track
+// 			resolve(trackWithLyrics)
+// 		});
+// 	})
+// 		//console.log(url)
+// 		//return getJSON(url);
+// }
 
 
 
