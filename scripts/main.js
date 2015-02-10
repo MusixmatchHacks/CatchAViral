@@ -67,7 +67,7 @@ $(document).ready(function(){
 			// videos[j]
 			// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
 			// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
-			$("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description']+  "</p><p>" +videos[j]['view_count']+ "</p></li>")
+			$("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"views:"+videos[j]['view_count']+ "</p></li>")
 		};
 	};
 	var videos = document.getElementsByClassName("youtube"); 
