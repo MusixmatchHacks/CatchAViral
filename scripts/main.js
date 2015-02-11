@@ -67,9 +67,21 @@ $(document).ready(function(){
 			// videos[j]
 			// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
 			// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
-			$("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"views:"+videos[j]['view_count']+ "</p></li>")
-		};
-	};
+			$("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"views: "+videos[j]['view_count']+ "</p>" + "<button type='button' class = 'flag_video_button'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button'>Flag channel</button>" +"</li>")
+		}
+	}
+	
+	$(".flag_video_button").click(function(){
+		// console.log($('#'+this.id).parent()[0].id)
+		console.log(this)
+	})
+
+	$(".flag_channel_button").click(function(){
+		// console.log($('#'+this.id).parent()[0].id)
+		console.log(this)
+	})
+
+
 	var videos = document.getElementsByClassName("youtube"); 
 	 
 	for (var i=0; i<videos.length; i++) {
