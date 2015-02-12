@@ -51,7 +51,7 @@ var have_valid_playlist = false
 var username = ''
 
 var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
-var add_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
+var add_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/addChannel?'
 var tag_video_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
 var flag_video_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagVideo?'
 // var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
@@ -80,20 +80,21 @@ $(document).ready(function(){
 			// videos[j]
 			// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
 			// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
-			$("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"views: "+videos[j]['view_count']+ "</p>" + "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
+			$("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"views: "+videos[j]['view_count'] +"</p><p>" + "release-date: "+ dates[i] +"</p>" + "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
 		}
 	}
 
 	$(".flag_video_button").click(function(){
 		// console.log($('#'+this.id).parent()[0].id)
-		console.log(this.getAttribute('data-videoId'))
+		// console.log(this.getAttribute('data-videoId'))
 
 		videoId = this.getAttribute('data-videoId')
 		url = flag_video_base + 'id=' + videoId
-		console.log(url)
+		// console.log(url)
 		getJSON(url).then(function(response)
 		{
 			console.log(response)
+			alert('Video flagged. It will be used to train a model to automatically detect if a new video is a music release.')
 		})
 	})
 
@@ -109,10 +110,28 @@ $(document).ready(function(){
 		getJSON(url).then(function(response)
 		{
 			console.log(response)
+			alert('Channel removed. It will not be tracked for latest music releases.')
 		})
 
 	})
 
+	$("#add_channel_button").click(function(){
+		// console.log($('#'+this.id).parent()[0].id)
+		// console.log(this.getAttribute('data-videoId'))
+		link = $("#add_channel_link")[0].value
+		artistId = $("#add_channel_artistId")[0].value
+		
+		console.log(link)
+		console.log(artistId)
+
+		url = add_channel_base + 'id=' + artistId + '&link=' + link
+		// console.log(url)
+		getJSON(url).then(function(response)
+		{
+			console.log(response)
+			alert('Channel added. It will now be tracked for latest music releases.')
+		})
+	})
 
 	var videos = document.getElementsByClassName("youtube"); 
 	 

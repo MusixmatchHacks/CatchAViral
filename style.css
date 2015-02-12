@@ -113,7 +113,10 @@ input.textinput {
     font-size: 1em;
     color: #f63;
     font: inherit;
+    margin-left: 10px;
+    margin-right: 10px;
 }
+
 
 input.textinput:hover, input.textinput:focus {
     outline: none;
@@ -153,6 +156,25 @@ select.dropdown:focus {
     border-bottom: 1px dashed #DD0000;*/
 }
 button.button {
+  background: #f63;
+    border: none;
+    padding: 15px 50px;
+    color: #FFF;
+    display: block;
+    margin: 40px auto 0px auto;
+    cursor: pointer;
+    font: inherit;
+    border-radius: 100px;
+    text-transform: uppercase;
+    font-family: 'Proxima-Nova';
+    letter-spacing: 1px;
+    transition-property: all; transition-duration: 0.5s;
+    -webkit-transition-property: all; -webkit-transition-duration: 0.5s;
+    -o-transition-property: all; -o-transition-duration: 0.5s;
+    -moz-transition-property: all; -moz-transition-duration: 0.5s;
+}
+
+button.add_channel_button {
   background: #f63;
     border: none;
     padding: 15px 50px;
