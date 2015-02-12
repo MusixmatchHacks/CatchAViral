@@ -50,6 +50,18 @@ var duolingoAPI_base = 'http://ec2-54-77-238-210.eu-west-1.compute.amazonaws.com
 var have_valid_playlist = false
 var username = ''
 
+var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
+var add_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
+var tag_video_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
+// var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
+//http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?id=0000&link=kkk
+
+function getJSON(url) 
+{
+	var get_promise = $.getJSON(url);
+	//console.log(url)
+	return get_promise.then(JSON.stringify).then(JSON.parse);
+}
 
 $(document).ready(function(){
 	// $("#videoList").append('<li><iframe id="ytplayer" type="text/html" width="562" height="338" src="http://www.youtube.com/embed/H8ELOfZoOQQ" frameborder="0"/></li>')
@@ -67,18 +79,29 @@ $(document).ready(function(){
 			// videos[j]
 			// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
 			// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
-			$("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"views: "+videos[j]['view_count']+ "</p>" + "<button type='button' class = 'flag_video_button'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button'>Flag channel</button>" +"</li>")
+			$("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"views: "+videos[j]['view_count']+ "</p>" + "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['videoId'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
 		}
 	}
-	
+
 	$(".flag_video_button").click(function(){
 		// console.log($('#'+this.id).parent()[0].id)
-		console.log(this)
+		console.log(this.getAttribute('data-videoId'))
 	})
 
 	$(".flag_channel_button").click(function(){
 		// console.log($('#'+this.id).parent()[0].id)
-		console.log(this)
+		// console.log(this.getAttribute('data-channelFullName'))
+		// console.log(this.getAttribute('data-artistId'))
+		link = this.getAttribute('data-channelFullName') 
+		artistId = this.getAttribute('data-artistId')
+
+		url = flag_channel_base + 'id=' + artistId + '&link=' + link
+		// console.log(url) 
+		getJSON(url).then(function(response)
+		{
+			console.log(response)
+		})
+
 	})
 
 
