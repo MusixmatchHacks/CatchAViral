@@ -53,6 +53,7 @@ var username = ''
 var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
 var add_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
 var tag_video_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
+var flag_video_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagVideo?'
 // var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
 //http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?id=0000&link=kkk
 
@@ -86,6 +87,14 @@ $(document).ready(function(){
 	$(".flag_video_button").click(function(){
 		// console.log($('#'+this.id).parent()[0].id)
 		console.log(this.getAttribute('data-videoId'))
+
+		videoId = this.getAttribute('data-videoId')
+		url = flag_video_base + 'id=' + videoId
+		console.log(url)
+		getJSON(url).then(function(response)
+		{
+			console.log(response)
+		})
 	})
 
 	$(".flag_channel_button").click(function(){
