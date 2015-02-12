@@ -122,7 +122,9 @@ input.textinput {
     margin-right: 10px;
 }
 
-
+p.date_container{
+  text-align: center;
+}
 input.textinput:hover, input.textinput:focus {
     outline: none;
     border-bottom: 1px dashed #f63;

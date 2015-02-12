@@ -73,7 +73,7 @@ $(document).ready(function(){
 	{
 		console.log(dates[i])
 		videos = Update[dates[i]]
-		$("#videoList").append('<p> Latest releases for '+ dates[i]+ ' </p>')
+		$("#videoList").append("<p class='date_container'><b> Latest releases for " + dates[i]+ " </b></p>")
 		for (var j = 0; j < videos.length; j++) 
 		// for (var j = 0; j < 20; j++) 
 		{
