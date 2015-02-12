@@ -103,6 +103,11 @@ p.line {
     line-height: 1.5em;
     font-weight: 300;
 }
+div.desc{
+  text-align: justify;
+  margin:0 auto;
+  width: 83em;
+}
 span.textinput {
 }
 
