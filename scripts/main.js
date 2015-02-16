@@ -68,21 +68,48 @@ $(document).ready(function(){
 	// $("#videoList").append('<li><iframe id="ytplayer" type="text/html" width="562" height="338" src="http://www.youtube.com/embed/H8ELOfZoOQQ" frameborder="0"/></li>')
 	// $("#videoList").append('<li><iframe id="ytplayer" type="text/html" width="562" height="338" src="http://www.youtube.com/embed/H8ELOfZoOQQ" frameborder="0"/></li>')
 	dates = Object.keys(Update)
-	console.log(dates)
+	// console.log(dates)
 	for (var i = 0; i < dates.length; i++) 
 	{
-		console.log(dates[i])
+		// console.log(dates[i])
 		videos = Update[dates[i]]
-		$("#videoList").append("<p class='date_container'><b> Latest releases for " + dates[i]+ " </b></p>")
+		// $("#videoList").append("<p class='date_container'><b> Latest releases for " + dates[i]+ " </b></p>")
+		if (i == 0){
+			$("#day_selector").append("<option value='"+dates[i]+ "'>" +"New music released today"+"</option>")
+		}
+		if (i == 1){
+			$("#day_selector").append("<option value='"+dates[i]+ "'>" +"New music released yesterday"+"</option>")
+		}
+		if (i!=0 && i!=1){
+			$("#day_selector").append("<option value='"+dates[i]+ "'>" +"New music released "+ dates[i]+"</option>")	
+		}
+		
+		$("#visualizations").append("<ul id ='" + dates[i] +"' style = 'display:none'></ul>")
 		for (var j = 0; j < videos.length; j++) 
 		// for (var j = 0; j < 20; j++) 
 		{
 			// videos[j]
 			// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
 			// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
-			$("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ dates[i] +"</p><p>" +"Subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
+			// $("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ dates[i] +"</p><p>" +"Subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
+			$("#" + dates[i]).append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ dates[i] +"</p><p>" +"Channel subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
 		}
 	}
+
+	$("#" + dates[0]).css("display","inline-block")
+
+	$("#day_selector").change(function(){
+
+		table_name = document.getElementById(this.id)[document.getElementById(this.id).selectedIndex].value
+		// console.log(table_name)
+		// $("#visualizations" )[0].innerHTML = ''
+		// console.log($('#' + table_name)[0].innerHTML)
+		// $("#visualizations" ).append($('#' + table_name)[0].innerHTML)
+		for (var i = 0; i < dates.length; i++) {
+			$("#" + dates[i]).css("display","none")
+		}
+		$("#" + table_name).css("display","inline-block")
+	})
 
 	$(".flag_video_button").click(function(){
 		// console.log($('#'+this.id).parent()[0].id)
