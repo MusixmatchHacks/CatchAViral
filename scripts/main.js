@@ -64,6 +64,40 @@ function getJSON(url)
 	return get_promise.then(JSON.stringify).then(JSON.parse);
 }
 
+function addButtonListener()
+{
+	$(".flag_video_button").click(function(){
+		// console.log($('#'+this.id).parent()[0].id)
+		// console.log(this.getAttribute('data-videoId'))
+
+		videoId = this.getAttribute('data-videoId')
+		url = flag_video_base + 'id=' + videoId
+		// console.log(url)
+		getJSON(url).then(function(response)
+		{
+			console.log(response)
+			alert('Video flagged. It will be used to train a model to automatically detect if a new video is a music release.')
+		})
+	})
+
+	$(".flag_channel_button").click(function(){
+		// console.log($('#'+this.id).parent()[0].id)
+		// console.log(this.getAttribute('data-channelFullName'))
+		// console.log(this.getAttribute('data-artistId'))
+		link = this.getAttribute('data-channelFullName') 
+		artistId = this.getAttribute('data-artistId')
+
+		url = flag_channel_base + 'id=' + artistId + '&link=' + link
+		// console.log(url) 
+		getJSON(url).then(function(response)
+		{
+			console.log(response)
+			alert('Channel removed. It will not be tracked for latest music releases.')
+		})
+
+	})
+}
+
 function showVideoThumbNails()
 {
 	var videos = document.getElementsByClassName("youtube"); 
@@ -120,6 +154,7 @@ function addVideoTable(selected_date)
 		$("#" + selected_date).append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ selected_date+"</p><p>" +"Channel subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Irrelevant channel</button><button type='button' class = 'missing_lyrics_button' data-videoId ='" + videos[j]['artistId'] + "' > Missing lyrics queue </button> </div>" +"</li>")
 	}
 	showVideoThumbNails()
+	addButtonListener()
 }
 
 $(document).ready(function(){
@@ -165,36 +200,7 @@ $(document).ready(function(){
 		addVideoTable(table_name)
 	})
 
-	$(".flag_video_button").click(function(){
-		// console.log($('#'+this.id).parent()[0].id)
-		// console.log(this.getAttribute('data-videoId'))
-
-		videoId = this.getAttribute('data-videoId')
-		url = flag_video_base + 'id=' + videoId
-		// console.log(url)
-		getJSON(url).then(function(response)
-		{
-			console.log(response)
-			alert('Video flagged. It will be used to train a model to automatically detect if a new video is a music release.')
-		})
-	})
-
-	$(".flag_channel_button").click(function(){
-		// console.log($('#'+this.id).parent()[0].id)
-		// console.log(this.getAttribute('data-channelFullName'))
-		// console.log(this.getAttribute('data-artistId'))
-		link = this.getAttribute('data-channelFullName') 
-		artistId = this.getAttribute('data-artistId')
-
-		url = flag_channel_base + 'id=' + artistId + '&link=' + link
-		// console.log(url) 
-		getJSON(url).then(function(response)
-		{
-			console.log(response)
-			alert('Channel removed. It will not be tracked for latest music releases.')
-		})
-
-	})
+	
 
 	$("#add_channel_button").click(function(){
 		// console.log($('#'+this.id).parent()[0].id)
