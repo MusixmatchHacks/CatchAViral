@@ -64,11 +64,70 @@ function getJSON(url)
 	return get_promise.then(JSON.stringify).then(JSON.parse);
 }
 
+function showVideoThumbNails()
+{
+	var videos = document.getElementsByClassName("youtube"); 
+	 
+	for (var i=0; i<videos.length; i++) {
+	  
+	  var youtube = videos[i];
+	  
+	  // Based on the YouTube ID, we can easily find the thumbnail image
+	  var img = document.createElement("img");
+	  img.setAttribute("src", "http://i.ytimg.com/vi/" 
+	                          + youtube.id + "/hqdefault.jpg");
+	  img.setAttribute("class", "thumb");
+	  
+	 
+	  // Overlay the Play icon to make it look like a video player
+	  var circle = document.createElement("div");
+	  circle.setAttribute("class","circle");  
+	  
+	  youtube.appendChild(img);
+	  // youtube.appendChild(circle);
+	  
+	  // Attach an onclick event to the YouTube Thumbnail
+	  youtube.onclick = function() {
+	 
+	    // Create an iFrame with autoplay set to true
+	    var iframe = document.createElement("iframe");
+	    iframe.setAttribute("src",
+	          "https://www.youtube.com/embed/" + this.id 
+	        + "?autoplay=1&autohide=1&border=0&wmode=opaque&enablejsapi=1"); 
+	    
+	    // The height and width of the iFrame should be the same as parent
+	    iframe.style.width  = this.style.width;
+	    iframe.style.height = this.style.height;
+	       
+	    // Replace the YouTube thumbnail with YouTube HTML5 Player
+	    this.parentNode.replaceChild(iframe, this);
+	 
+	  }; 
+	}
+}
+
+function addVideoTable(selected_date)
+{
+	videos = Update[selected_date]
+
+	for (var j = 0; j < videos.length; j++) 
+	// for (var j = 0; j < 20; j++) 
+	{
+		// videos[j]
+		// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
+		// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
+		// $("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ dates[i] +"</p><p>" +"Subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
+		$("#" + selected_date).append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ selected_date+"</p><p>" +"Channel subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Irrelevant channel</button><button type='button' class = 'missing_lyrics_button' data-videoId ='" + videos[j]['artistId'] + "' > Missing lyrics queue </button> </div>" +"</li>")
+	}
+	showVideoThumbNails()
+}
+
 $(document).ready(function(){
 	// $("#videoList").append('<li><iframe id="ytplayer" type="text/html" width="562" height="338" src="http://www.youtube.com/embed/H8ELOfZoOQQ" frameborder="0"/></li>')
 	// $("#videoList").append('<li><iframe id="ytplayer" type="text/html" width="562" height="338" src="http://www.youtube.com/embed/H8ELOfZoOQQ" frameborder="0"/></li>')
 	dates = Object.keys(Update)
 	// console.log(dates)
+	today = dates[0]
 	for (var i = 0; i < dates.length; i++) 
 	{
 		// console.log(dates[i])
@@ -85,18 +144,11 @@ $(document).ready(function(){
 		}
 		
 		$("#visualizations").append("<ul id ='" + dates[i] +"' style = 'display:none'></ul>")
-		for (var j = 0; j < videos.length; j++) 
-		// for (var j = 0; j < 20; j++) 
-		{
-			// videos[j]
-			// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
-			// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
-			// $("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ dates[i] +"</p><p>" +"Subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
-			$("#" + dates[i]).append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ dates[i] +"</p><p>" +"Channel subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Irrelevant channel</button><button type='button' class = 'missing_lyrics_button' data-videoId ='" + videos[j]['artistId'] + "' > Missing lyrics queue </button> </div>" +"</li>")
-		}
+		
 	}
 
-	$("#" + dates[0]).css("display","inline-block")
+	$("#" + today).css("display","inline-block")
+	addVideoTable(today)
 
 	$("#day_selector").change(function(){
 
@@ -107,8 +159,10 @@ $(document).ready(function(){
 		// $("#visualizations" ).append($('#' + table_name)[0].innerHTML)
 		for (var i = 0; i < dates.length; i++) {
 			$("#" + dates[i]).css("display","none")
+			$("#" + dates[i])[0].innerHTML = ''
 		}
 		$("#" + table_name).css("display","inline-block")
+		addVideoTable(table_name)
 	})
 
 	$(".flag_video_button").click(function(){
@@ -160,44 +214,7 @@ $(document).ready(function(){
 		})
 	})
 
-	var videos = document.getElementsByClassName("youtube"); 
-	 
-	for (var i=0; i<videos.length; i++) {
-	  
-	  var youtube = videos[i];
-	  
-	  // Based on the YouTube ID, we can easily find the thumbnail image
-	  var img = document.createElement("img");
-	  img.setAttribute("src", "http://i.ytimg.com/vi/" 
-	                          + youtube.id + "/hqdefault.jpg");
-	  img.setAttribute("class", "thumb");
-	  
-	 
-	  // Overlay the Play icon to make it look like a video player
-	  var circle = document.createElement("div");
-	  circle.setAttribute("class","circle");  
-	  
-	  youtube.appendChild(img);
-	  // youtube.appendChild(circle);
-	  
-	  // Attach an onclick event to the YouTube Thumbnail
-	  youtube.onclick = function() {
-	 
-	    // Create an iFrame with autoplay set to true
-	    var iframe = document.createElement("iframe");
-	    iframe.setAttribute("src",
-	          "https://www.youtube.com/embed/" + this.id 
-	        + "?autoplay=1&autohide=1&border=0&wmode=opaque&enablejsapi=1"); 
-	    
-	    // The height and width of the iFrame should be the same as parent
-	    iframe.style.width  = this.style.width;
-	    iframe.style.height = this.style.height;
-	       
-	    // Replace the YouTube thumbnail with YouTube HTML5 Player
-	    this.parentNode.replaceChild(iframe, this);
-	 
-	  }; 
-	}
+	
 })
 
 
