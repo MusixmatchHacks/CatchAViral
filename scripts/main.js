@@ -54,6 +54,10 @@ var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAVi
 var add_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/addChannel?'
 var tag_video_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
 var flag_video_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagVideo?'
+
+var slackbot_url = 'https://musixmatch.slack.com/services/hooks/slackbot?token=38O91Wjmp7sRAdQBQEkVjjWO&channel=%23catch_youtube_virals'
+
+//curl --data "Hello from Slackbot" $'https://musixmatch.slack.com/services/hooks/slackbot?token=38O91Wjmp7sRAdQBQEkVjjWO&channel=%23general'
 // var flag_channel_base = 'http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?'
 //http://ec2-23-20-32-78.compute-1.amazonaws.com/CatchAViral/v1/flagChannel?id=0000&link=kkk
 
@@ -62,6 +66,14 @@ function getJSON(url)
 	var get_promise = $.getJSON(url);
 	//console.log(url)
 	return get_promise.then(JSON.stringify).then(JSON.parse);
+}
+
+function postJSON(video_message)
+{
+	// url = slackbot_url 
+	var get_promise = $.post(slackbot_url,video_message)
+
+	return get_promise.then(JSON.stringify).then(JSON.parse)
 }
 
 function addButtonListener()
@@ -93,6 +105,24 @@ function addButtonListener()
 		{
 			console.log(response)
 			alert('Channel removed. It will not be tracked for latest music releases.')
+		})
+
+	})
+
+	$(".missing_lyrics_button").click(function(){
+		// console.log($('#'+this.id).parent()[0].id)
+		// console.log(this.getAttribute('data-channelFullName'))
+		// console.log(this.getAttribute('data-artistId'))
+		videoId = this.getAttribute('data-videoId') 
+		// artistId = this.getAttribute('data-artistId')
+
+		video_message = "This video is going viral, please add the lyrics: https://www.youtube.com/watch?v=" + videoId
+
+		// url = flag_channel_base + 'id=' + artistId + '&link=' + link
+		// console.log(url) 
+		postJSON(video_message).then( function(response){
+			console.log(response)
+			alert('Video posted to catch_youtube_virals slack channel.')
 		})
 
 	})
@@ -151,7 +181,7 @@ function addVideoTable(selected_date)
 		// $("#videoList").append("<li><iframe id='ytplayer' type='text/html' width='560' height='420' src='http://www.youtube.com/embed/" + videos[j]['videoId']+"' frameborder='0'/></li>")
 		// $("#videoList").append("<li><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].substring(0,20)+  " ...</p></li>")
 		// $("#videoList").append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ dates[i] +"</p><p>" +"Subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Flag channel</button> </div>" +"</li>")
-		$("#" + selected_date).append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ selected_date+"</p><p>" +"Channel subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Irrelevant channel</button><button type='button' class = 'missing_lyrics_button' data-videoId ='" + videos[j]['artistId'] + "' > Missing lyrics queue </button> </div>" +"</li>")
+		$("#" + selected_date).append("<li ><div class='youtube' id='" +videos[j]['videoId']+"' style='width:480px; height: 360px;'> </div> <div class = 'video_description' style='width:480px;'><p>" +videos[j]['title']+"</p><p>" +videos[j]['description'].slice(0,200)+'...'+  "</p><p>" +"Views: "+videos[j]['view_count'] +"</p><p>" + "Release-date: "+ selected_date+"</p><p>" +"Channel subscribers: " + videos[j]['subscribers'] + "</p>"+ "<button type='button' class = 'flag_video_button' data-videoId = '" + videos[j]['videoId'] + "'>Flag video</button>"+ "<button type='button' class = 'flag_channel_button' data-channelFullName = '" + videos[j]['channelFull'] + "' data-artistId = '" + videos[j]['artistId'] + "' >Irrelevant channel</button><button type='button' class = 'missing_lyrics_button' data-videoId ='" + videos[j]['videoId'] + "' > Missing lyrics queue </button> </div>" +"</li>")
 	}
 	showVideoThumbNails()
 	addButtonListener()
